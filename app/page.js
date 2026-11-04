@@ -173,6 +173,10 @@ export default function Home() {
             </button>
             <button type="submit" disabled={busy}>{busy ? "Working…" : "Bid"}</button>
           </div>
+          <p className="paynote">
+            Payments via UPI &amp; Indian netbanking (Razorpay).<br />
+            Your link stays on the board — rank = total paid.
+          </p>
         </form>
         {msg && <p className="msg">{msg}</p>}
         <ul className="rules">
