@@ -205,7 +205,17 @@ export default function Home() {
                     onClick={() => { setTarget(l.url); setAddUsd(1); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                   >
                     Top up
-                  </button>
+                  </button>{" "}
+                  <a
+                    className="sharelink"
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      `${l.title} is #${l.rank} on BidBoard at ${fmt(l.total)} — outbid them by $5 to take the spot 👑`
+                    )}&url=${encodeURIComponent("https://bidboard-tau.vercel.app")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Share on X
+                  </a>
                 </td>
               </tr>
             ))}

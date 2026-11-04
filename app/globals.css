@@ -26,6 +26,7 @@ button:disabled { opacity:.6; cursor:wait; }
 .board th,.board td { text-align:left; padding:12px 10px; border-bottom:1px solid #23254a; }
 .board tr.first td { color:var(--accent); font-weight:700; }
 button.link { background:none; border:0; color:var(--ink); font-size:16px; font-weight:600; padding:0; cursor:pointer; text-decoration:underline; }
+a.sharelink { color:var(--accent); font-size:13px; margin-left:8px; }
 .empty { color:var(--muted); }
 footer { margin-top:40px; color:var(--muted); font-size:13px; text-align:center; }
 footer a { color:var(--accent); }
