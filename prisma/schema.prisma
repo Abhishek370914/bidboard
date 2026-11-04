@@ -1,0 +1,43 @@
+// Production schema (PostgreSQL) — same shape as the local JSON store in lib/store.js.
+// The demo runs on the JSON store so it works with zero setup; for production,
+// set DATABASE_URL, run `npx prisma migrate deploy`, and swap lib/store.js
+// implementations for Prisma queries (the API routes don't change).
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Listing {
+  id        String    @id @default(cuid())
+  key       String    @unique // "url:https://…" or "x:handle" (normalised)
+  title     String
+  url       String
+  kind      String // "site" | "x"
+  total     Int // cumulative dollars paid — this IS the rank
+  clicks    Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  payments  Payment[]
+
+  @@index([total(sort: Desc), createdAt(sort: Asc)]) // rank order, ties to the older listing
+}
+
+model Payment {
+  id             String   @id // Stripe checkout session id, or demo_<uuid> in demo mode
+  listing        Listing  @relation(fields: [listingKey], references: [key])
+  listingKey     String
+  amount         Int // dollars charged in THIS payment (top-ups pay only the difference)
+  resultingTotal Int // listing total after this payment
+  mode           String // "live" | "demo" — only "live" counts toward public revenue
+  provider       String // "stripe" | "demo"
+  createdAt      DateTime @default(now())
+}
+
+model Stat {
+  id      Int @id @default(1)
+  visitors Int @default(0)
+}
