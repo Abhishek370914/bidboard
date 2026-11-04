@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getState, summarise } from "../../../lib/store";
+import { getState, summarise, kvConfigured } from "../../../lib/store";
 import { razorpayConfigured } from "../../../lib/razorpay";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +18,7 @@ export async function GET() {
     visitors: s.visitors,
     top_bid_usd: s.topBid,
     payments_provider: razorpayConfigured() ? "razorpay" : process.env.STRIPE_SECRET_KEY ? "stripe" : "demo",
+    storage: kvConfigured ? "kv-persistent" : "ephemeral",
     demo_mode: !razorpayConfigured() && !process.env.STRIPE_SECRET_KEY,
     demo_revenue_usd_excluded: s.demoRevenue,
     generated_at: new Date().toISOString(),
